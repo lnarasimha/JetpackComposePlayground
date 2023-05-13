@@ -1,0 +1,18 @@
+package com.shaxpeare.albums.data.mapper
+
+import com.shaxpeare.albums.data.model.ApiPhoto
+import com.shaxpeare.albums.domain.model.Photo
+import javax.inject.Inject
+
+class PhotoMapper @Inject constructor() : Mapper<ApiPhoto, Photo> {
+
+    override fun toDomain(from: ApiPhoto): Photo {
+        return Photo(
+            from.id,
+            from.albumId,
+            from.title,
+            from.url,
+            from.thumbnailUrl
+        )
+    }
+}
