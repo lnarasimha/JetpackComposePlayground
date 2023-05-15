@@ -14,7 +14,7 @@ interface AlbumsService {
     @GET("albums/")
     suspend fun getAlbumsFromPaging(
         @Query("_page") page: Int,
-        @Query("_limit") limit: Int = 5
+        @Query("_limit") limit: Int = 10
     ): List<ApiAlbum>
 
     @GET("albums/")
@@ -23,7 +23,7 @@ interface AlbumsService {
     @GET("users/")
     suspend fun getUsers(): List<ApiUser>
 
-    @GET("albums/{albumId}/photos?_page=1&_limit=5")
+    @GET("albums/{albumId}/photos?_page=1&_limit=2")
     suspend fun getAlbumPhotos(
         @Path("albumId") albumId: Int
     ): List<ApiPhoto>

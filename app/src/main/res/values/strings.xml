@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Albums</string>
+    <string name="toggle_theme">Toggle Theme</string>
+    <string name="loading">Loading...</string>
 </resources>

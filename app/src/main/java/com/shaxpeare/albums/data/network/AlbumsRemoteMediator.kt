@@ -11,10 +11,9 @@ import com.shaxpeare.albums.data.mapper.AlbumMapper
 import com.shaxpeare.albums.data.mapper.PhotoMapper
 import com.shaxpeare.albums.domain.model.Album
 import com.shaxpeare.albums.domain.model.AlbumsRemoteKey
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.withContext
+import com.shaxpeare.albums.domain.model.User
+import com.shaxpeare.albums.hilt.IoDispatcher
+import kotlinx.coroutines.*
 
 /**
  * Starting page index for making the first call.
@@ -27,24 +26,21 @@ class AlbumsRemoteMediator constructor(
     private val albumsDatabase: AlbumsDatabase,
     private val albumMapper: AlbumMapper,
     private val photoMapper: PhotoMapper,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : RemoteMediator<Int, Album>() {
+
+    private lateinit var users: List<User>
 
     private val albumsDao = albumsDatabase.albumsDao()
     private val albumsRemoteKeysDao = albumsDatabase.albumsRemoteKeysDao()
-//
-//    override suspend fun initialize(): InitializeAction {
-//        val currentTime = System.currentTimeMillis()
-//        val lastUpdated = 0
-//        val cacheTimeout = 1440
-//        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
-//        return if (diffInMinutes.toInt() <= cacheTimeout) {
-//            InitializeAction.SKIP_INITIAL_REFRESH
-//        } else {
-//            InitializeAction.LAUNCH_INITIAL_REFRESH
-//        }
-//    }
+
+    override suspend fun initialize(): InitializeAction {
+        initialiseUsersList()
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Album>): MediatorResult {
+
         return try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
@@ -76,11 +72,16 @@ class AlbumsRemoteMediator constructor(
 
             val albumsResponse = albumsService.getAlbumsFromPaging(page)
             if (albumsResponse.isNotEmpty()) {
-                val albums = withContext(Dispatchers.IO) {
+                val albums = withContext(dispatcher) {
                     albumsResponse
                         .map { albumMapper.toDomain(it) }
                         .map { async { fetchItemData(it) } }
                         .awaitAll()
+                        .map { album ->
+                            album.apply {
+                                userName = users.firstOrNull { userId == it.id }?.name ?: ""
+                            }
+                        }
                 }
 
                 albumsDatabase.withTransaction {
@@ -89,8 +90,8 @@ class AlbumsRemoteMediator constructor(
                         albumsRemoteKeysDao.deleteAllRemoteKeys()
                     }
 
-                    val prevPage = if (page == STARTING_PAGE_INDEX) null else page - 1
-                    val nextPage = if (albums.isNullOrEmpty()) null else page + 1
+                    val prevPage = if (page > 1) page - 1 else null
+                    val nextPage = if (albums.isEmpty()) null else page + 1
 
                     val keys = albums.map { album ->
                         AlbumsRemoteKey(
@@ -116,6 +117,14 @@ class AlbumsRemoteMediator constructor(
             item.photos = photoMapper.toDomain(response)
         }
         return item
+    }
+
+    private suspend fun initialiseUsersList() {
+        withContext(dispatcher) {
+            if (!this@AlbumsRemoteMediator::users.isInitialized) {
+                users = albumsDatabase.usersDao().getAllUsers()
+            }
+        }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
@@ -145,5 +154,4 @@ class AlbumsRemoteMediator constructor(
                 albumsRemoteKeysDao.getRemoteKeys(albumId = hero.id)
             }
     }
-
 }

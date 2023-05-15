@@ -14,6 +14,8 @@ import com.shaxpeare.albums.data.network.AlbumsRemoteMediator
 import com.shaxpeare.albums.data.network.AlbumsService
 import com.shaxpeare.albums.domain.model.Album
 import com.shaxpeare.albums.domain.repository.AlbumsRepository
+import com.shaxpeare.albums.hilt.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -22,26 +24,15 @@ class AlbumsRepositoryImpl @Inject constructor(
     private val albumsDatabase: AlbumsDatabase,
     private val albumMapper: AlbumMapper,
     private val photoMapper: PhotoMapper,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : AlbumsRepository {
 
     private val albumsDao = albumsDatabase.albumsDao()
 
-//    override fun getAlbumsWithPaging(): Flow<PagingData<Album>> {
-//        return Pager(
-//            config = PagingConfig(
-//                prefetchDistance = 5,
-//                pageSize = 5,
-//                maxSize = 20,
-//                enablePlaceholders = true
-//            ),
-//            pagingSourceFactory = {
-//                AlbumsPagingSource(albumsService, albumMapper, photoMapper)
-//            }
-//        ).flow
-//    }
-
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getAlbumsWithPaging(): Flow<PagingData<Album>> {
+    /**
+     * Paging with only Network, using PagingSource
+     */
+    fun getAlbumsWithNetworkPaging(): Flow<PagingData<Album>> {
         return Pager(
             config = PagingConfig(
                 prefetchDistance = 5,
@@ -49,8 +40,35 @@ class AlbumsRepositoryImpl @Inject constructor(
                 maxSize = 20,
                 enablePlaceholders = true
             ),
+            pagingSourceFactory = {
+                AlbumsPagingSource(
+                    albumsService,
+                    albumMapper,
+                    photoMapper
+                )
+            }
+        ).flow
+    }
+
+    /**
+     * Paging with only Local Cache and Network, using RemoteMediator.
+     * To make App Start time smaller, the values are optimised to make less API calls.
+     */
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAlbumsWithPaging(): Flow<PagingData<Album>> {
+        return Pager(
+            config = PagingConfig(
+                prefetchDistance = 1,
+                pageSize = 3,
+                maxSize = 6,
+                enablePlaceholders = true
+            ),
             remoteMediator = AlbumsRemoteMediator(
-                albumsService, albumsDatabase, albumMapper, photoMapper
+                albumsService,
+                albumsDatabase,
+                albumMapper,
+                photoMapper,
+                dispatcher
             ),
             pagingSourceFactory = {
                 albumsDao.getAlbums()

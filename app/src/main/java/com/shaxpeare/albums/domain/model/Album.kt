@@ -15,7 +15,6 @@ data class Album(
     val id: Int,
     val userId: Int,
     val title: String,
-//    @TypeConverters(Converters::class)
     var photos: List<Photo> = emptyList(),
-    val userName: String = "John"
+    var userName: String = ""
 ) : Parcelable

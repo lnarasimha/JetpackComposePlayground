@@ -1,22 +1,12 @@
 package com.shaxpeare.albums.presentation.album.list
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
@@ -39,39 +29,19 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.shaxpeare.albums.R
 import com.shaxpeare.albums.domain.model.Album
+import com.shaxpeare.albums.presentation.common.ShimmerEffect
+import com.shaxpeare.albums.presentation.theme.ALBUM_ITEM_HEIGHT
+import com.shaxpeare.albums.presentation.theme.Spacing
 
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AlbumListScreen(
     navController: NavHostController,
     albumListViewModel: AlbumListViewModel = hiltViewModel(),
     navigateToDetails: (id: String) -> Unit
 ) {
-
     val lazyAlbumItems = albumListViewModel.getAlbums().collectAsLazyPagingItems()
-    AlbumsTopBar()
     ListContent(albums = lazyAlbumItems, navHostController = navController)
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AlbumsTopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(54.dp)
-            .background(Color.Gray),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "Albums", modifier = Modifier.fillMaxWidth())
-        Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopBarPreview() {
-    AlbumsTopBar()
 }
 
 @Composable
@@ -79,102 +49,101 @@ fun ListContent(
     albums: LazyPagingItems<Album>,
     navHostController: NavHostController
 ) {
-    val result = handlePagingResult(beers = albums)
+    val result = handlePagingResult(albums = albums)
     if (result) {
         LazyColumn(
             modifier = Modifier
-                .background(Color.LightGray)
-                .padding(all = 16.dp),
-            contentPadding = PaddingValues(all = 0.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(all = MaterialTheme.Spacing.none),
+            contentPadding = PaddingValues(all = MaterialTheme.Spacing.medium),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.Spacing.medium)
         ) {
             items(
                 items = albums,
                 key = { album ->
-//                    Log.e("RESPONSE", album.toString())
                     album
                 }
             ) { album ->
-                if (album != null){
+                if (album != null) {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight(),
-                        elevation = CardDefaults.cardElevation()
+                        elevation = MaterialTheme.Spacing.extraSmall,
+                        shape = RoundedCornerShape(MaterialTheme.Spacing.medium)
                     ) {
-                        Row(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .wrapContentHeight()
-                                .background(Color.White),
-                            verticalAlignment = Alignment.Top
+                                .wrapContentHeight(),
+                            verticalArrangement = Arrangement.SpaceAround,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             AsyncImage(
                                 modifier = Modifier
-                                    .size(150.dp)
-                                    .padding(all = 16.dp)
+                                    .size(ALBUM_ITEM_HEIGHT)
+                                    .padding(all = MaterialTheme.Spacing.medium)
                                     .fillMaxSize()
-                                    .clip(RoundedCornerShape(16.dp)),
+                                    .clip(RoundedCornerShape(MaterialTheme.Spacing.medium)),
                                 model = ImageRequest.Builder(LocalContext.current)
-                                    .data(data = album?.photos?.first()?.thumbnailUrl)
+                                    .data(data = album.photos.first().thumbnailUrl)
                                     .build(),
                                 contentDescription = stringResource(id = R.string.app_name),
                                 contentScale = ContentScale.Fit
                             )
 
-                            Column(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = album.photos.first().title,
-                                    modifier = Modifier
-                                        .padding(top = 16.dp, end = 16.dp)
-                                        .fillMaxWidth(),
-                                    color = Color.Black,
-                                    style = MaterialTheme.typography.titleSmall
-                                )
+                            Text(
+                                text = album.photos.first().title,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.9f)
+                                    .padding(
+                                        end = MaterialTheme.Spacing.medium
+                                    ),
+                                style = MaterialTheme.typography.h6,
+                                textAlign = TextAlign.Center
+                            )
 
-                                Text(
-                                    text = album.title,
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.5f)
-                                        .padding(top = 16.dp)
-                                        .background(Color.LightGray, RoundedCornerShape(6.dp)),
-                                    color = Color.Black,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    textAlign = TextAlign.Center
-                                )
+                            Text(
+                                text = album.title,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .padding(top = MaterialTheme.Spacing.large)
+                                    .background(Color.LightGray, RoundedCornerShape(6.dp)),
+                                style = MaterialTheme.typography.subtitle1,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 24.sp
+                            )
 
-                                Text(
-                                    text = album.userName,
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.5f)
-                                        .padding(top = 16.dp)
-                                        .background(Color.LightGray, RoundedCornerShape(6.dp)),
-                                    color = Color.Black,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    textAlign = TextAlign.Center
-                                )
-                            }
+                            Text(
+                                text = album.userName,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .heightIn(MaterialTheme.Spacing.large)
+                                    .padding(
+                                        top = MaterialTheme.Spacing.medium,
+                                        bottom = MaterialTheme.Spacing.medium
+                                    )
+                                    .background(Color.LightGray, RoundedCornerShape(6.dp)),
+                                style = MaterialTheme.typography.subtitle1,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 24.sp
+                            )
                         }
                     }
                 }
             }
         }
     }
-
 }
 
 @Composable
 fun handlePagingResult(
-    beers: LazyPagingItems<Album>
+    albums: LazyPagingItems<Album>
 ): Boolean {
-    beers.apply {
-        Log.e("PAGING", "")
+    albums.apply {
         val error = when {
             loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
             loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -184,6 +153,7 @@ fun handlePagingResult(
 
         return when {
             loadState.refresh is LoadState.Loading -> {
+                ShimmerEffect()
                 false
             }
 
@@ -191,8 +161,7 @@ fun handlePagingResult(
                 false
             }
 
-            beers.itemCount < 1 -> {
-
+            albums.itemCount < 1 -> {
                 false
             }
 
