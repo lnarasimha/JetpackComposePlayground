@@ -11,10 +11,9 @@ import retrofit2.http.Query
  * Retrofit Interface describing API calls.
  */
 interface AlbumsService {
-    @GET("albums/")
+    @GET("albums/?_limit=5")
     suspend fun getAlbumsFromPaging(
         @Query("_page") page: Int,
-        @Query("_limit") limit: Int = 5
     ): List<ApiAlbum>
 
     @GET("albums/")

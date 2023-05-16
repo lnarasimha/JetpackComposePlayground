@@ -15,7 +15,7 @@ interface UsersDao {
     suspend fun getAllUsers(): List<User>
 
     @Query("SELECT * FROM user_table WHERE id=:userId")
-    fun getSelectedUser(userId: String): User
+    fun getSelectedUser(userId: Int): User
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addUsers(users: List<User>) : List<Long>

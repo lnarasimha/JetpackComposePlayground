@@ -10,6 +10,8 @@ import javax.inject.Inject
 class PhotoMapper @Inject constructor() : Mapper<ApiPhoto, Photo> {
 
     override fun toDomain(from: ApiPhoto): Photo {
+        require(from.id > 0)
+        require(from.albumId > 0)
         return Photo(
             from.id,
             from.albumId,

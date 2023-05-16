@@ -10,9 +10,11 @@ import javax.inject.Inject
 class UserMapper @Inject constructor() : Mapper<ApiUser, User> {
 
     override fun toDomain(from: ApiUser): User {
+        require(from.id > 0)
         return User(
             from.id,
             from.name,
+            from.username,
             from.email,
             from.phone,
             from.website

@@ -81,7 +81,7 @@ class AlbumsRemoteMediator constructor(
                 }
             }
 
-            val albumsResponse = albumsService.getAlbumsFromPaging(page, state.config.pageSize)
+            val albumsResponse = albumsService.getAlbumsFromPaging(page)
 
             withContext(dispatcher) {
                 val albums = albumsResponse

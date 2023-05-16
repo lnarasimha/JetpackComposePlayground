@@ -26,12 +26,14 @@ import com.shaxpeare.albums.domain.model.User
     ],
     version = 1
 )
+
 @TypeConverters(Converters::class)
 abstract class AlbumsDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context, useInMemory: Boolean): AlbumsDatabase {
             val databaseBuilder = if (useInMemory) {
                 Room.inMemoryDatabaseBuilder(context, AlbumsDatabase::class.java)
+                    .allowMainThreadQueries()
             } else {
                 Room.databaseBuilder(context, AlbumsDatabase::class.java, "test_database.db")
             }

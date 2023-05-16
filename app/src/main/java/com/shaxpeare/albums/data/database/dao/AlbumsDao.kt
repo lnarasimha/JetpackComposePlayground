@@ -15,6 +15,9 @@ interface AlbumsDao {
     @Query("SELECT * FROM album_table ORDER BY id ASC")
     fun getAlbums(): PagingSource<Int, Album>
 
+    @Query("SELECT * FROM album_table ORDER BY id ASC")
+    fun getAllAlbums(): List<Album>
+
     @Query("SELECT * FROM album_table WHERE id=:albumId")
     fun getSelectedAlbum(albumId: Int): Album
 
