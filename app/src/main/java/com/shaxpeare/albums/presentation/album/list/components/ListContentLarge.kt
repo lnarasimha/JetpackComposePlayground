@@ -1,6 +1,5 @@
 package com.shaxpeare.albums.presentation.common
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -22,8 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
@@ -31,7 +27,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.shaxpeare.albums.R
 import com.shaxpeare.albums.domain.model.Album
-import com.shaxpeare.albums.presentation.album.list.handlePagingResult
+import com.shaxpeare.albums.presentation.album.list.components.handlePagingResult
 import com.shaxpeare.albums.presentation.theme.ALBUM_ITEM_HEIGHT
 import com.shaxpeare.albums.presentation.theme.Spacing
 

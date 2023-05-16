@@ -1,6 +1,5 @@
 package com.shaxpeare.albums.data.network
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -40,11 +39,22 @@ class AlbumsRemoteMediator constructor(
     override suspend fun initialize(): InitializeAction {
         initialiseUsersList()
         yield()
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return if (shouldRefreshData()) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+
+        }
+    }
+
+    private suspend fun shouldRefreshData(): Boolean {
+        val currentTime = System.currentTimeMillis()
+        val lastUpdated = albumsRemoteKeysDao.getRemoteKeys(albumId = 1)?.lastUpdated ?: 0L
+        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        return diffInMinutes.toInt() >= CACHE_TIMEOUT
     }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Album>): MediatorResult {
-        Log.e("PAGING", "Load Called, ${state.pages}")
         return try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
@@ -70,9 +80,9 @@ class AlbumsRemoteMediator constructor(
                     nextPage
                 }
             }
-            Log.e("PAGING", "$page")
+
             val albumsResponse = albumsService.getAlbumsFromPaging(page, state.config.pageSize)
-            Log.e("PAGING", "${albumsResponse.size}")
+
             withContext(dispatcher) {
                 val albums = albumsResponse
                     .map { albumMapper.toDomain(it) }
@@ -91,7 +101,6 @@ class AlbumsRemoteMediator constructor(
 
                     val prevPage = if (page == STARTING_PAGE_INDEX) null else page - 1
                     val nextPage = if (albums.isEmpty()) null else page + 1
-                    Log.e("ERROR", "$prevPage , $nextPage")
 
                     val keys = albums.map { album ->
                         AlbumsRemoteKey(
@@ -123,8 +132,8 @@ class AlbumsRemoteMediator constructor(
         withContext(dispatcher) {
             if (!this@AlbumsRemoteMediator::users.isInitialized) {
                 users = albumsDatabase.usersDao().getAllUsers()
-                if (users.isEmpty()){
-                    users = albumsService.getUsers().map { usersMapper.toDomain(it)}
+                if (users.isEmpty()) {
+                    users = albumsService.getUsers().map { usersMapper.toDomain(it) }
                 }
             }
         }

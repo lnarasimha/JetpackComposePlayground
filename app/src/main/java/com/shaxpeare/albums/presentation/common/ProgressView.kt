@@ -39,7 +39,7 @@ fun AnimatedProgressView(rotate: Float) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Image(
             modifier = Modifier.rotate(rotate),
-            painter = painterResource(id = R.drawable.ic_launcher),
+            painter = painterResource(id = R.drawable.ic_progress),
             contentDescription = stringResource(R.string.loading)
         )
     }

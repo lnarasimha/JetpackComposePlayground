@@ -7,13 +7,17 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.shaxpeare.albums.presentation.album.details.AlbumDetailsScreen
 import com.shaxpeare.albums.presentation.album.list.AlbumListScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> { error("No nav controller") }
 val LocalDarkTheme = compositionLocalOf { mutableStateOf(false) }
+
+const val ARGUMENT_ALBUM_ID = "albumId"
 
 @Composable
 fun NavGraph(
@@ -29,11 +33,16 @@ fun NavGraph(
         composable(route = Screen.AlbumList.route) {
             AlbumListScreen(navController = navController,
                 navigateToDetails = {
-                    navController.navigate(Screen.AlbumDetails.route)
+                    navController.navigate("${Screen.AlbumDetails.route}/$it")
                 })
         }
 
-        composable(route = Screen.AlbumDetails.route) {
+        composable(
+            route = "${Screen.AlbumDetails.route}/{$ARGUMENT_ALBUM_ID}",
+            arguments = listOf(navArgument(ARGUMENT_ALBUM_ID) {
+                type = NavType.IntType
+            })
+        ) {
             AlbumDetailsScreen()
         }
     }

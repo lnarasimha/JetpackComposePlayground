@@ -1,5 +1,6 @@
-package com.shaxpeare.albums.presentation.common
+package com.shaxpeare.albums.presentation.album.list.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,20 +22,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.shaxpeare.albums.R
 import com.shaxpeare.albums.domain.model.Album
-import com.shaxpeare.albums.presentation.album.list.handlePagingResult
+import com.shaxpeare.albums.presentation.common.EmptyScreen
+import com.shaxpeare.albums.presentation.common.ProgressView
 import com.shaxpeare.albums.presentation.theme.ALBUM_ITEM_HEIGHT_COMPACT
 import com.shaxpeare.albums.presentation.theme.Spacing
 
 @Composable
 fun ListContentCompact(
     albums: LazyPagingItems<Album>,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    navigateToAlbumDetail: (Int) -> Unit
 ) {
     val result = handlePagingResult(albums = albums)
     if (result) {
@@ -54,7 +58,10 @@ fun ListContentCompact(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight(),
+                            .wrapContentHeight()
+                            .clickable {
+                                navigateToAlbumDetail.invoke(album.id)
+                            },
                     ) {
                         Row(
                             modifier = Modifier
@@ -162,6 +169,41 @@ fun ListContentCompact(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun handlePagingResult(
+    albums: LazyPagingItems<Album>
+): Boolean {
+
+    albums.apply {
+        val error = when {
+            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+            loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            else -> null
+        }
+
+        return when {
+            loadState.refresh is LoadState.Loading -> {
+                ProgressView()
+                false
+            }
+
+            error != null -> {
+                EmptyScreen {
+                    refresh()
+                }
+                false
+            }
+
+            albums.itemCount < 1 -> {
+                false
+            }
+
+            else -> true
         }
     }
 }

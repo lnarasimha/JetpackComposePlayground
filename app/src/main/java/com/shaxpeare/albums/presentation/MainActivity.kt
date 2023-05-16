@@ -1,9 +1,10 @@
-package com.shaxpeare.albums
+package com.shaxpeare.albums.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.Scaffold
@@ -30,10 +31,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                mainViewModel.fetchingData.value
+            }
+        }
         setContent {
             val systemTheme = isSystemInDarkTheme()
             val isDarkTheme = remember {
