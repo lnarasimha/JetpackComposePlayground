@@ -21,11 +21,11 @@ import com.shaxpeare.albums.presentation.theme.*
 @Preview(showBackground = true)
 @Composable
 fun Shimmer() {
-    ShimmerEffect()
+    ShimmerEffectLarge()
 }
 
 @Composable
-fun ShimmerEffect() {
+fun ShimmerEffectLarge() {
     Column() {
         LazyColumn(
             modifier = Modifier

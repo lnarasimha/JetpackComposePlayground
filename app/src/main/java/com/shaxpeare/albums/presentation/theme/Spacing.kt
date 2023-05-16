@@ -5,7 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 data class Spacing(
     val none: Dp = 0.dp,
@@ -14,6 +16,10 @@ data class Spacing(
     val medium: Dp = 16.dp,
     val large: Dp = 24.dp,
     val extraLarge: Dp = 32.dp,
+    val textExtraSmall: TextUnit = 12.sp,
+    val textSmall: TextUnit = 14.sp,
+    val textMedium: TextUnit = 16.sp,
+    val textLarge: TextUnit = 24.sp
 )
 
 val LocalSpacing = compositionLocalOf { Spacing() }
@@ -24,3 +30,4 @@ val MaterialTheme.Spacing: Spacing
     get() = LocalSpacing.current
 
 val ALBUM_ITEM_HEIGHT = 200.dp
+val ALBUM_ITEM_HEIGHT_COMPACT = 150.dp
