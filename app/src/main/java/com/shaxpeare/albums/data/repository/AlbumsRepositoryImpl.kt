@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import com.shaxpeare.albums.data.database.AlbumsDatabase
 import com.shaxpeare.albums.data.mapper.AlbumMapper
 import com.shaxpeare.albums.data.mapper.PhotoMapper
+import com.shaxpeare.albums.data.mapper.UserMapper
 import com.shaxpeare.albums.data.model.ApiAlbum
 import com.shaxpeare.albums.data.model.ApiUser
 import com.shaxpeare.albums.data.network.AlbumsPagingSource
@@ -19,20 +20,25 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * Repository Contract Implementation for network calls.
+ */
 class AlbumsRepositoryImpl @Inject constructor(
     private val albumsService: AlbumsService,
     private val albumsDatabase: AlbumsDatabase,
     private val albumMapper: AlbumMapper,
     private val photoMapper: PhotoMapper,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    private val userMapper: UserMapper,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : AlbumsRepository {
 
     private val albumsDao = albumsDatabase.albumsDao()
+    private lateinit var pager: Flow<PagingData<Album>>
 
     /**
      * Paging with only Network, using PagingSource
      */
-    fun getAlbumsWithNetworkPaging(): Flow<PagingData<Album>> {
+    override fun getAlbumsWithNetworkPaging(): Flow<PagingData<Album>> {
         return Pager(
             config = PagingConfig(
                 prefetchDistance = 5,
@@ -56,11 +62,12 @@ class AlbumsRepositoryImpl @Inject constructor(
      */
     @OptIn(ExperimentalPagingApi::class)
     override fun getAlbumsWithPaging(): Flow<PagingData<Album>> {
+
         return Pager(
             config = PagingConfig(
                 prefetchDistance = 1,
-                pageSize = 3,
-                maxSize = 6,
+                pageSize = 4,
+                maxSize = 10,
                 enablePlaceholders = true
             ),
             remoteMediator = AlbumsRemoteMediator(
@@ -68,6 +75,7 @@ class AlbumsRepositoryImpl @Inject constructor(
                 albumsDatabase,
                 albumMapper,
                 photoMapper,
+                userMapper,
                 dispatcher
             ),
             pagingSourceFactory = {

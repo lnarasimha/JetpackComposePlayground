@@ -4,6 +4,9 @@ import com.shaxpeare.albums.data.model.ApiPhoto
 import com.shaxpeare.albums.domain.model.Photo
 import javax.inject.Inject
 
+/**
+ * Mapper to convert [ApiPhoto] to [Photo]
+ */
 class PhotoMapper @Inject constructor() : Mapper<ApiPhoto, Photo> {
 
     override fun toDomain(from: ApiPhoto): Photo {

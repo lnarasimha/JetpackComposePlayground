@@ -85,7 +85,7 @@ fun ShimmerItem(alpha: Float) {
                     .clip(RoundedCornerShape(MaterialTheme.Spacing.medium)),
                 color = if (isSystemInDarkTheme())
                     ShimmerDarkGray else ShimmerMediumGray,
-                shape = RoundedCornerShape(size = SMALL_PADDING)
+                shape = RoundedCornerShape(size = MaterialTheme.Spacing.small)
             ) {}
 
             repeat(3) {
@@ -99,9 +99,9 @@ fun ShimmerItem(alpha: Float) {
                         .fillMaxWidth(0.7f),
                     color = if (isSystemInDarkTheme())
                         ShimmerDarkGray else ShimmerMediumGray,
-                    shape = RoundedCornerShape(size = SMALL_PADDING)
+                    shape = RoundedCornerShape(size = MaterialTheme.Spacing.small)
                 ) {}
-                Spacer(modifier = Modifier.padding(all = EXTRA_SMALL_PADDING))
+                Spacer(modifier = Modifier.padding(all = MaterialTheme.Spacing.small))
             }
         }
     }

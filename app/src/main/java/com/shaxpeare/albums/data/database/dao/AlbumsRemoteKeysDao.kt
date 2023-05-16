@@ -6,6 +6,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.shaxpeare.albums.domain.model.AlbumsRemoteKey
 
+/**
+ * Data Access Object for AlbumsRemoteKeys in Room DB.
+ * Used in Paging 3 Library for fetching items from server.
+ */
 @Dao
 interface AlbumsRemoteKeysDao {
     @Query("SELECT * FROM albums_remote_keys_table WHERE id = :albumId")

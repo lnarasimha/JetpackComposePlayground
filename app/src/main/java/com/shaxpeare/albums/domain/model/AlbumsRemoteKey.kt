@@ -9,4 +9,5 @@ data class AlbumsRemoteKey(
     val id: Int,
     val prevPage: Int?,
     val nextPage: Int?,
+    val lastUpdated: Long
 )

@@ -6,6 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.shaxpeare.albums.domain.model.User
 
+/**
+ * Data Access Object for Users in Room DB.
+ */
 @Dao
 interface UsersDao {
     @Query("SELECT * FROM user_table ORDER BY id ASC")

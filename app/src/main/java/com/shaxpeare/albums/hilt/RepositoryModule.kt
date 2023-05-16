@@ -9,10 +9,6 @@ import com.shaxpeare.albums.data.repository.AlbumsRepositoryImpl
 import com.shaxpeare.albums.data.repository.LocalRepositoryImpl
 import com.shaxpeare.albums.domain.repository.AlbumsRepository
 import com.shaxpeare.albums.domain.repository.LocalRepository
-import com.shaxpeare.albums.domain.usecase.getalbums.GetAlbumsUseCase
-import com.shaxpeare.albums.domain.usecase.getalbums.GetAlbumsUseCaseImpl
-import com.shaxpeare.albums.domain.usecase.saveusers.SaveUsersUseCase
-import com.shaxpeare.albums.domain.usecase.saveusers.SaveUsersUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +16,9 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
+/**
+ * Module to provide all Repository related dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
@@ -31,34 +30,22 @@ object RepositoryModule {
         albumsDatabase: AlbumsDatabase,
         albumMapper: AlbumMapper,
         photoMapper: PhotoMapper,
-        @IoDispatcher dispatcher: CoroutineDispatcher
+        usersMapper:UserMapper,
+        @IoDispatcher dispatcher: CoroutineDispatcher,
     ): AlbumsRepository {
-        return AlbumsRepositoryImpl(albumsService, albumsDatabase, albumMapper, photoMapper, dispatcher)
+        return AlbumsRepositoryImpl(
+            albumsService,
+            albumsDatabase,
+            albumMapper,
+            photoMapper,
+            usersMapper,
+            dispatcher,
+        )
     }
 
     @Provides
     @Singleton
     fun provideLocalRepository(albumsDatabase: AlbumsDatabase): LocalRepository {
         return LocalRepositoryImpl(albumsDatabase)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetAlbumsUseCase(albumsRepository: AlbumsRepository): GetAlbumsUseCase {
-        return GetAlbumsUseCaseImpl(albumsRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetUsersUseCase(
-        localRepository: LocalRepository,
-        albumsRepository: AlbumsRepository,
-        usersMapper: UserMapper
-    ): SaveUsersUseCase {
-        return SaveUsersUseCaseImpl(
-            localRepository,
-            albumsRepository,
-            usersMapper
-        )
     }
 }

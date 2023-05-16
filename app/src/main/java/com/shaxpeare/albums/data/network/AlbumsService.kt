@@ -8,13 +8,14 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-//https://jsonplaceholder.typicode.com/albums/1/photos?_page=1&_limit=20
-
+/**
+ * Retrofit Interface describing API calls.
+ */
 interface AlbumsService {
     @GET("albums/")
     suspend fun getAlbumsFromPaging(
         @Query("_page") page: Int,
-        @Query("_limit") limit: Int = 10
+        @Query("_limit") limit: Int = 5
     ): List<ApiAlbum>
 
     @GET("albums/")

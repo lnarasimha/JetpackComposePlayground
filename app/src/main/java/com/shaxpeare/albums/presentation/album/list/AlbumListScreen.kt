@@ -14,7 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -42,6 +46,124 @@ fun AlbumListScreen(
 ) {
     val lazyAlbumItems = albumListViewModel.getAlbums().collectAsLazyPagingItems()
     ListContent(albums = lazyAlbumItems, navHostController = navController)
+}
+
+@Composable
+fun ListContent2(
+    albums: LazyPagingItems<Album>,
+    navHostController: NavHostController
+) {
+    val result = handlePagingResult(albums = albums)
+    if (result) {
+        LazyColumn(
+            modifier = Modifier
+                .background(Color.LightGray)
+                .padding(all = 16.dp),
+            contentPadding = PaddingValues(all = 0.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(
+                items = albums,
+                key = { album ->
+//                    Log.e("RESPONSE", album.toString())
+                    album
+                }
+            ) { album ->
+                if (album != null) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .background(Color.White),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            AsyncImage(
+                                modifier = Modifier
+                                    .size(150.dp)
+                                    .padding(all = 16.dp)
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(16.dp)),
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(data = album?.photos?.first()?.thumbnailUrl)
+                                    .build(),
+                                contentDescription = stringResource(id = R.string.app_name),
+                                contentScale = ContentScale.Fit
+                            )
+
+                            Column(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Title: ")
+                                        append(album.photos.first().title)
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            top = MaterialTheme.Spacing.medium,
+                                            end = MaterialTheme.Spacing.medium
+                                        ),
+                                    style = MaterialTheme.typography.subtitle1,
+                                    textAlign = TextAlign.Center,
+                                    fontStyle = FontStyle.Italic,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 16.sp
+                                )
+
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Album: ")
+                                        append(album.title)
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            top = MaterialTheme.Spacing.large,
+                                            end = MaterialTheme.Spacing.medium
+                                        )
+                                        .background(Color.LightGray, RoundedCornerShape(6.dp)),
+                                    style = MaterialTheme.typography.subtitle1,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 14.sp
+                                )
+
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Username: ")
+                                        append(album.userName)
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .heightIn(MaterialTheme.Spacing.large)
+                                        .padding(
+                                            top = MaterialTheme.Spacing.medium,
+                                            bottom = MaterialTheme.Spacing.medium,
+                                            end = MaterialTheme.Spacing.medium
+                                        )
+                                        .background(Color.LightGray, RoundedCornerShape(6.dp)),
+                                    style = MaterialTheme.typography.subtitle1,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 14.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -92,33 +214,46 @@ fun ListContent(
                             )
 
                             Text(
-                                text = album.photos.first().title,
+                                text = buildAnnotatedString {
+                                    append("Title: ")
+                                    append(album.photos.first().title)
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth(0.9f)
                                     .padding(
                                         end = MaterialTheme.Spacing.medium
                                     ),
                                 style = MaterialTheme.typography.h6,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
+                                fontStyle = FontStyle.Italic,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 24.sp
                             )
 
                             Text(
-                                text = album.title,
+                                text = buildAnnotatedString {
+                                    append("Album: ")
+                                    append(album.title)
+                                },
                                 modifier = Modifier
-                                    .fillMaxWidth(0.5f)
+                                    .fillMaxWidth(0.7f)
                                     .padding(top = MaterialTheme.Spacing.large)
                                     .background(Color.LightGray, RoundedCornerShape(6.dp)),
                                 style = MaterialTheme.typography.subtitle1,
-                                maxLines = 1,
+                                maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Center,
-                                lineHeight = 24.sp
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 16.sp
                             )
 
                             Text(
-                                text = album.userName,
+                                text = buildAnnotatedString {
+                                    append("Username: ")
+                                    append(album.userName)
+                                },
                                 modifier = Modifier
-                                    .fillMaxWidth(0.5f)
+                                    .fillMaxWidth(0.7f)
                                     .heightIn(MaterialTheme.Spacing.large)
                                     .padding(
                                         top = MaterialTheme.Spacing.medium,
@@ -129,7 +264,8 @@ fun ListContent(
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Center,
-                                lineHeight = 24.sp
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 16.sp
                             )
                         }
                     }
@@ -167,5 +303,15 @@ fun handlePagingResult(
 
             else -> true
         }
+    }
+}
+
+@Composable
+fun ProgressView() {
+    Box(Modifier.fillMaxSize()) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_launcher),
+            contentDescription = "Loading.."
+        )
     }
 }

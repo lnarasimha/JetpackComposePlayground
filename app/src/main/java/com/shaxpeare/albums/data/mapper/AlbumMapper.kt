@@ -4,6 +4,9 @@ import com.shaxpeare.albums.data.model.ApiAlbum
 import com.shaxpeare.albums.domain.model.Album
 import javax.inject.Inject
 
+/**
+ * Mapper to convert [ApiAlbum] to [Album]
+ */
 class AlbumMapper @Inject constructor(): Mapper<ApiAlbum, Album> {
 
     override fun toDomain(from: ApiAlbum): Album {

@@ -6,6 +6,9 @@ import com.shaxpeare.albums.domain.repository.AlbumsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * Get Albums Use Case Contract Implementation.
+ */
 class GetAlbumsUseCaseImpl @Inject constructor(
     private val albumsRepository: AlbumsRepository
 ) : GetAlbumsUseCase {

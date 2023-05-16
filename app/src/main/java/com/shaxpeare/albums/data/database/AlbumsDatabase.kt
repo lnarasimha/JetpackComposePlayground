@@ -14,6 +14,9 @@ import com.shaxpeare.albums.domain.model.AlbumsRemoteKey
 import com.shaxpeare.albums.domain.model.Photo
 import com.shaxpeare.albums.domain.model.User
 
+/**
+ * Albums Database.
+ */
 @Database(
     entities = [
         Album::class,

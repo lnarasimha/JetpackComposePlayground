@@ -23,19 +23,19 @@ fun NavGraph(
     val navController = LocalNavController.current
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.route,
+        startDestination = Screen.AlbumList.route,
         modifier = Modifier.padding(paddingValues = paddingValues)
     ) {
 
-        composable(route = Screen.Splash.route) {
-            SplashScreen(navigateToAlbums = {
-                navController.navigate(Screen.AlbumList.route) {
-                    popUpTo(Screen.Splash.route) {
-                        inclusive = true
-                    }
-                }
-            })
-        }
+//        composable(route = Screen.Splash.route) {
+//            SplashScreen(navigateToAlbums = {
+//                navController.navigate(Screen.AlbumList.route) {
+//                    popUpTo(Screen.Splash.route) {
+//                        inclusive = true
+//                    }
+//                }
+//            })
+//        }
 
         composable(route = Screen.AlbumList.route) {
             AlbumListScreen(navController = navController,

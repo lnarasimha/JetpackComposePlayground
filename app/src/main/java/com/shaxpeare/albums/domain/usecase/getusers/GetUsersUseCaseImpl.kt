@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+/**
+ * Get Users Use Case Contract Implementation.
+ */
 class GetUsersUseCaseImpl @Inject constructor(
     private val localRepository: LocalRepository
 ) : GetUsersUseCase {

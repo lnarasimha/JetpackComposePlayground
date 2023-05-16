@@ -1,9 +1,12 @@
 package com.shaxpeare.albums
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.window.OnBackInvokedCallback
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -12,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
@@ -22,7 +26,6 @@ import com.shaxpeare.albums.navigation.NavGraph
 import com.shaxpeare.albums.presentation.theme.AlbumsTheme
 import com.shaxpeare.albums.presentation.theme.Spacing
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @SuppressLint(
     "UnusedMaterial3ScaffoldPaddingParameter",
@@ -85,7 +88,9 @@ class MainActivity : ComponentActivity() {
                 Modifier.padding(
                     start = MaterialTheme.Spacing.medium,
                     end = MaterialTheme.Spacing.medium
-                )
+                ),
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold
             )
             val icon =
                 if (!isDarkTheme.value) R.drawable.ic_dark_mode else R.drawable.ic_dark_mode_bright

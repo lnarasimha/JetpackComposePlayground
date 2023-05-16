@@ -1,6 +1,5 @@
 package com.shaxpeare.albums.domain.usecase.saveusers
 
-import android.util.Log
 import com.shaxpeare.albums.data.mapper.UserMapper
 import com.shaxpeare.albums.domain.model.Resource
 import com.shaxpeare.albums.domain.repository.AlbumsRepository
@@ -9,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+/**
+ * Save Users Use Case Contract Implementation.
+ */
 class SaveUsersUseCaseImpl @Inject constructor(
     private val localRepository: LocalRepository,
     private val albumsRepository: AlbumsRepository,
@@ -19,12 +21,10 @@ class SaveUsersUseCaseImpl @Inject constructor(
         try {
             emit(Resource.Loading)
             val savedUsers = localRepository.getAllUsers()
-            if (!savedUsers.isNullOrEmpty()) {
-                Log.e("EMITTING", "ALREADY SAVED")
+            if (savedUsers.isNotEmpty()) {
                 val longList = savedUsers.map { it.id.toLong() }
                 emit(Resource.Success(longList))
             } else {
-                Log.e("EMITTING", "NOT SAVED ALREADY")
                 val users = albumsRepository.getUsers()
                 val mappedUsers = usersMapper.toDomain(users)
                 val savedUsersList = localRepository.saveUsers(mappedUsers)

@@ -9,6 +9,7 @@ import androidx.room.withTransaction
 import com.shaxpeare.albums.data.database.AlbumsDatabase
 import com.shaxpeare.albums.data.mapper.AlbumMapper
 import com.shaxpeare.albums.data.mapper.PhotoMapper
+import com.shaxpeare.albums.data.mapper.UserMapper
 import com.shaxpeare.albums.domain.model.Album
 import com.shaxpeare.albums.domain.model.AlbumsRemoteKey
 import com.shaxpeare.albums.domain.model.User
@@ -19,6 +20,7 @@ import kotlinx.coroutines.*
  * Starting page index for making the first call.
  */
 private const val STARTING_PAGE_INDEX = 1
+private const val CACHE_TIMEOUT = 5
 
 @ExperimentalPagingApi
 class AlbumsRemoteMediator constructor(
@@ -26,7 +28,8 @@ class AlbumsRemoteMediator constructor(
     private val albumsDatabase: AlbumsDatabase,
     private val albumMapper: AlbumMapper,
     private val photoMapper: PhotoMapper,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    private val usersMapper: UserMapper,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : RemoteMediator<Int, Album>() {
 
     private lateinit var users: List<User>
@@ -36,11 +39,12 @@ class AlbumsRemoteMediator constructor(
 
     override suspend fun initialize(): InitializeAction {
         initialiseUsersList()
+        yield()
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Album>): MediatorResult {
-
+        Log.e("PAGING", "Load Called, ${state.pages}")
         return try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
@@ -49,13 +53,11 @@ class AlbumsRemoteMediator constructor(
                 }
 
                 LoadType.PREPEND -> {
-
                     val remoteKeys = getRemoteKeyForFirstItem(state)
                     val prevPage = remoteKeys?.prevPage
                         ?: return MediatorResult.Success(
                             endOfPaginationReached = remoteKeys != null
                         )
-                    Log.e("PAGING", " PREPEND - $prevPage")
                     prevPage
                 }
 
@@ -65,47 +67,45 @@ class AlbumsRemoteMediator constructor(
                         ?: return MediatorResult.Success(
                             endOfPaginationReached = remoteKeys != null
                         )
-                    Log.e("PAGING", "APPEND - $nextPage")
                     nextPage
                 }
             }
-
-            val albumsResponse = albumsService.getAlbumsFromPaging(page)
-            if (albumsResponse.isNotEmpty()) {
-                val albums = withContext(dispatcher) {
-                    albumsResponse
-                        .map { albumMapper.toDomain(it) }
-                        .map { async { fetchItemData(it) } }
-                        .awaitAll()
-                        .map { album ->
-                            album.apply {
-                                userName = users.firstOrNull { userId == it.id }?.name ?: ""
-                            }
+            Log.e("PAGING", "$page")
+            val albumsResponse = albumsService.getAlbumsFromPaging(page, state.config.pageSize)
+            Log.e("PAGING", "${albumsResponse.size}")
+            withContext(dispatcher) {
+                val albums = albumsResponse
+                    .map { albumMapper.toDomain(it) }
+                    .map { async { fetchItemData(it) } }
+                    .awaitAll()
+                    .map { album ->
+                        album.apply {
+                            userName = users.firstOrNull { userId == it.id }?.name ?: ""
                         }
-                }
-
+                    }
                 albumsDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
                         albumsDao.deleteAllAlbums()
                         albumsRemoteKeysDao.deleteAllRemoteKeys()
                     }
 
-                    val prevPage = if (page > 1) page - 1 else null
+                    val prevPage = if (page == STARTING_PAGE_INDEX) null else page - 1
                     val nextPage = if (albums.isEmpty()) null else page + 1
+                    Log.e("ERROR", "$prevPage , $nextPage")
 
                     val keys = albums.map { album ->
                         AlbumsRemoteKey(
                             id = album.id,
                             prevPage = prevPage,
                             nextPage = nextPage,
+                            lastUpdated = System.currentTimeMillis()
                         )
                     }
                     albumsRemoteKeysDao.addAllRemoteKeys(keys)
                     albumsDao.addAlbums(albums)
                 }
+                return@withContext MediatorResult.Success(endOfPaginationReached = albums.isEmpty())
             }
-
-            MediatorResult.Success(endOfPaginationReached = albumsResponse.isEmpty())
         } catch (throwable: Exception) {
             MediatorResult.Error(throwable)
         }
@@ -123,6 +123,9 @@ class AlbumsRemoteMediator constructor(
         withContext(dispatcher) {
             if (!this@AlbumsRemoteMediator::users.isInitialized) {
                 users = albumsDatabase.usersDao().getAllUsers()
+                if (users.isEmpty()){
+                    users = albumsService.getUsers().map { usersMapper.toDomain(it)}
+                }
             }
         }
     }

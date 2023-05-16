@@ -4,6 +4,9 @@ import com.shaxpeare.albums.data.database.AlbumsDatabase
 import com.shaxpeare.albums.domain.model.User
 import com.shaxpeare.albums.domain.repository.LocalRepository
 
+/**
+ * Repository Contract Implementation for Local Database.
+ */
 class LocalRepositoryImpl(
     private val albumsDatabase: AlbumsDatabase
 ) : LocalRepository {

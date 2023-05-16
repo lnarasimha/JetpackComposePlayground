@@ -4,6 +4,9 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.shaxpeare.albums.domain.model.Photo
 
+/**
+ * Type converter for photos list to be stored in Room DB.
+ */
 class Converters(
 ) {
 

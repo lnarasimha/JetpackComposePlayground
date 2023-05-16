@@ -21,6 +21,9 @@ import kotlin.system.measureTimeMillis
  */
 private const val STARTING_PAGE_INDEX = 1
 
+/**
+ * PagingSource used to paginate without local cache.
+ */
 class AlbumsPagingSource @Inject constructor(
     private val albumsService: AlbumsService,
     private val albumMapper: AlbumMapper,
@@ -38,8 +41,6 @@ class AlbumsPagingSource @Inject constructor(
         val position = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            Log.e("PAGING", "Fetching for position $position")
-
             val albums = withContext(Dispatchers.IO) {
                 val albums = albumsService.getAlbumsFromPaging(position)
                     .map { albumMapper.toDomain(it) }
@@ -54,28 +55,6 @@ class AlbumsPagingSource @Inject constructor(
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = if (albums.isNullOrEmpty()) null else position + 1
             )
-
-//            val mappedAlbums = withContext(Dispatchers.IO){
-//                val mappedAlbums = albums.map { albumMapper.toDomain(it) }
-//
-//                 mappedAlbums.forEach { album ->
-//                     val photo =
-//                         withContext(Dispatchers.Default) {
-//                             albumsService.getAlbumPhotos(album.id)
-//                         }
-//                     album.photos = photoMapper.toDomain(photo)
-////                    val photos = albumsService.getAlbumPhotos(album.id).map { photoMapper.toDomain(it) }
-////                    album.photos= photos
-//                }
-//                mappedAlbums
-//            }
-
-//            LoadResult.Page(
-//                data = if (mappedAlbums != null) mappedAlbums as List<Album> else emptyList(),
-//                prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-//                nextKey = if (albums.isNullOrEmpty()) null else position + 1
-//            )
-
         } catch (exception: IOException) {
             LoadResult.Error(exception)
 

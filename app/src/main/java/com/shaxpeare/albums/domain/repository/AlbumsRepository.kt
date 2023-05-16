@@ -7,7 +7,11 @@ import com.shaxpeare.albums.data.model.ApiUser
 import com.shaxpeare.albums.domain.model.Album
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Contract for Network Repository.
+ */
 interface AlbumsRepository {
+    fun getAlbumsWithNetworkPaging(): Flow<PagingData<Album>>
     fun getAlbumsWithPaging(): Flow<PagingData<Album>>
     suspend fun getAllAlbums(): List<ApiAlbum>
     suspend fun getPhotosForAlbum(albumId: Int): List<ApiPhoto>
