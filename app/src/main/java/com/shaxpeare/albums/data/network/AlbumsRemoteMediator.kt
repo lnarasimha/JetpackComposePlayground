@@ -90,7 +90,7 @@ class AlbumsRemoteMediator constructor(
                     .awaitAll()
                     .map { album ->
                         album.apply {
-                            userName = users.firstOrNull { userId == it.id }?.name ?: ""
+                            userName = users.firstOrNull { userId == it.id }?.username ?: ""
                         }
                     }
                 albumsDatabase.withTransaction {

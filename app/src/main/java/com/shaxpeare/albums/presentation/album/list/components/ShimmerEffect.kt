@@ -69,6 +69,7 @@ fun ShimmerItem(alpha: Float) {
             .fillMaxWidth()
             .height(200.dp),
         elevation = 6.dp,
+        shape = RoundedCornerShape(16.dp),
     ) {
         Row(
             modifier = Modifier

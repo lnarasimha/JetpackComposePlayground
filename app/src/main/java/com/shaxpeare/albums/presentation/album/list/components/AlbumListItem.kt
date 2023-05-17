@@ -27,13 +27,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.navigation.NavHostController
-import androidx.navigation.NavOptionsBuilder
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.shaxpeare.albums.R
 import com.shaxpeare.albums.domain.model.Album
-import com.shaxpeare.albums.navigation.Screen
 import com.shaxpeare.albums.presentation.theme.ALBUM_ITEM_HEIGHT_COMPACT
 import com.shaxpeare.albums.presentation.theme.Spacing
 
@@ -48,6 +46,7 @@ fun AlbumListItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
+        shape = RoundedCornerShape(16.dp),
         onClick = {
             // Do Nothing
         }
@@ -83,7 +82,7 @@ fun AlbumListItem(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Title \n")
+                            append(stringResource(R.string.title))
                         }
                         append(album.photos.first().title)
                     },
@@ -109,7 +108,7 @@ fun AlbumListItem(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Album \n")
+                            append(stringResource(R.string.album))
                         }
                         append(album.title)
                     },
@@ -135,7 +134,7 @@ fun AlbumListItem(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Username \n")
+                            append(stringResource(R.string.username))
                         }
                         append(album.userName)
                     },
