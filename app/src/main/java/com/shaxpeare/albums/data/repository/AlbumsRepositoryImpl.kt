@@ -66,7 +66,7 @@ class AlbumsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 prefetchDistance = 1,
-                pageSize = 4,
+                pageSize = 5,
                 maxSize = 10,
                 enablePlaceholders = true
             ),
