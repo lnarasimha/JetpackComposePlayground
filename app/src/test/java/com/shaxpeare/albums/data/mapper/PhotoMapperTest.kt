@@ -1,6 +1,6 @@
 package com.shaxpeare.albums.data.mapper
 
-import com.shaxpeare.albums.TestData
+import com.shaxpeare.albums.utils.TestData
 import com.shaxpeare.albums.data.model.ApiPhoto
 import com.shaxpeare.albums.domain.model.Photo
 import org.junit.Before

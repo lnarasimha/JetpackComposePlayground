@@ -7,7 +7,6 @@
     <group
         android:pivotX="128"
         android:pivotY="128"
-        android:rotation="@integer/material_motion_duration_long_1"
         android:scaleX="0.5"
         android:scaleY="0.5">
 

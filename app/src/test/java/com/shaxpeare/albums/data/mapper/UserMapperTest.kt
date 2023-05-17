@@ -1,12 +1,12 @@
 package com.shaxpeare.albums.data.mapper
 
-import com.shaxpeare.albums.TestData.USER_ITEM_INVALID_1
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_1
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_1_DOMAIN
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_2
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_2_DOMAIN
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_3
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_3_DOMAIN
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_INVALID_1
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_1
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_1_DOMAIN
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_2
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_2_DOMAIN
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_3
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_3_DOMAIN
 import com.shaxpeare.albums.data.model.ApiUser
 import com.shaxpeare.albums.domain.model.User
 import org.junit.Before

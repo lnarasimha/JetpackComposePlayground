@@ -1,4 +1,4 @@
-package com.shaxpeare.albums
+package com.shaxpeare.albums.utils
 
 import com.shaxpeare.albums.data.model.ApiAlbum
 import com.shaxpeare.albums.data.model.ApiPhoto

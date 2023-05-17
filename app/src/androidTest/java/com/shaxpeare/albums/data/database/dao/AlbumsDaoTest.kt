@@ -1,33 +1,29 @@
 package com.shaxpeare.albums.data.database.dao
 
-import androidx.test.core.app.ApplicationProvider
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_1_DOMAIN
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_2_DOMAIN
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_3_DOMAIN
-import com.shaxpeare.albums.data.database.AlbumsDatabase
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_1_DOMAIN
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_2_DOMAIN
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_3_DOMAIN
 import com.shaxpeare.albums.domain.model.Album
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-internal class AlbumsDaoTest {
+@HiltAndroidTest
+internal class AlbumsDaoTest : AbstractDaoTest() {
 
-    lateinit var albumsDatabase: AlbumsDatabase
     lateinit var albumsDao: AlbumsDao
 
     @Before
-    fun setUp() {
-        albumsDatabase = AlbumsDatabase.create(
-            ApplicationProvider.getApplicationContext(),
-            true
-        )
+    override fun setUp() {
+        super.setUp()
         albumsDao = albumsDatabase.albumsDao()
     }
 
     @Test
-    fun insert_Valid_Albums_List_Returns_Success() = runBlocking {
+    fun insertValidAlbumsListReturnsSuccess() = runBlocking {
         // Given
         val albums = listOf<Album>(
             ALBUM_ITEM_VALID_1_DOMAIN,
@@ -46,7 +42,7 @@ internal class AlbumsDaoTest {
 
 
     @Test
-    fun query_Album_Return_Appropriate_Album_Object() = runBlocking {
+    fun queryAlbumReturnAppropriateAlbumObject() = runBlocking {
         // Given
         val albums = listOf<Album>(
             ALBUM_ITEM_VALID_1_DOMAIN,
@@ -64,7 +60,7 @@ internal class AlbumsDaoTest {
     }
 
     @Test
-    fun delete_Albums_Returns_Success() = runBlocking {
+    fun deleteAlbumsReturnsSuccess() = runBlocking {
         //Given
         val albums = listOf<Album>(
             ALBUM_ITEM_VALID_1_DOMAIN,

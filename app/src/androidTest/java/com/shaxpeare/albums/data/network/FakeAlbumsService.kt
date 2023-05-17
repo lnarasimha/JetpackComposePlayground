@@ -1,52 +1,53 @@
 package com.shaxpeare.albums.data.network
 
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_1
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_10
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_11
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_12
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_13
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_14
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_15
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_16
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_17
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_2
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_3
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_4
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_5
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_6
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_7
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_8
-import com.shaxpeare.albums.TestData.ALBUM_ITEM_VALID_9
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_1
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_10
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_11
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_12
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_13
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_14
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_2
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_3
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_4
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_5
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_6
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_7
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_8
-import com.shaxpeare.albums.TestData.PHOTO_ITEM_VALID_9
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_1
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_10
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_2
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_3
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_4
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_5
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_6
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_7
-import com.shaxpeare.albums.TestData.USER_ITEM_VALID_9
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_1
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_10
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_11
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_12
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_13
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_14
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_15
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_16
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_17
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_2
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_3
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_4
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_5
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_6
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_7
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_8
+import com.shaxpeare.albums.utils.TestData.ALBUM_ITEM_VALID_9
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_1
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_10
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_11
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_12
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_13
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_14
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_2
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_3
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_4
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_5
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_6
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_7
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_8
+import com.shaxpeare.albums.utils.TestData.PHOTO_ITEM_VALID_9
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_1
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_10
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_2
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_3
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_4
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_5
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_6
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_7
+import com.shaxpeare.albums.utils.TestData.USER_ITEM_VALID_9
 import com.shaxpeare.albums.data.model.ApiAlbum
 import com.shaxpeare.albums.data.model.ApiPhoto
 import com.shaxpeare.albums.data.model.ApiUser
-import com.shaxpeare.albums.domain.model.User
 import java.io.IOException
 
-
+/**
+ * Fake Albums Service to provide Fake data.
+ */
 class FakeAlbumsService : AlbumsService {
 
     private val albums: Map<Int, List<ApiAlbum>> by lazy {
@@ -164,7 +165,7 @@ class FakeAlbumsService : AlbumsService {
     }
 
     override suspend fun getAllAlbums(): List<ApiAlbum> {
-        TODO("Not yet implemented")
+        return emptyList()
     }
 
     override suspend fun getUsers(): List<ApiUser> {
@@ -177,5 +178,4 @@ class FakeAlbumsService : AlbumsService {
         }
         return photos[albumId]!!
     }
-
 }
