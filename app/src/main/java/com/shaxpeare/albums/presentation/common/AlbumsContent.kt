@@ -36,13 +36,13 @@ fun AlbumsContent() {
                     isDarkTheme = LocalDarkTheme.current
                 )
             },
-                content = { AlbumsNavGraph() }
+                content = { AlbumsNavGraph(navController) }
             )
         }
     }
 }
 
 @Composable
-private fun AlbumsNavGraph() {
-    NavGraph(paddingValues = PaddingValues(all = 0.dp))
+private fun AlbumsNavGraph(navController: NavHostController) {
+    NavGraph( paddingValues = PaddingValues(all = 0.dp))
 }

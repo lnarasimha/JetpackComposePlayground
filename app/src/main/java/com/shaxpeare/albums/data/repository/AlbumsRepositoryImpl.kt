@@ -62,26 +62,26 @@ class AlbumsRepositoryImpl @Inject constructor(
      */
     @OptIn(ExperimentalPagingApi::class)
     override fun getAlbumsWithPaging(): Flow<PagingData<Album>> {
-
-        return Pager(
-            config = PagingConfig(
-                prefetchDistance = 1,
-                pageSize = 5,
-                maxSize = 10,
-                enablePlaceholders = true
-            ),
-            remoteMediator = AlbumsRemoteMediator(
-                albumsService,
-                albumsDatabase,
-                albumMapper,
-                photoMapper,
-                userMapper,
-                dispatcher
-            ),
-            pagingSourceFactory = {
-                albumsDao.getAlbums()
-            }
-        ).flow
+        if (!this::pager.isInitialized) {
+            pager = Pager(
+                config = PagingConfig(
+                    prefetchDistance = 1,
+                    pageSize = 5,
+                    maxSize = 10,
+                    enablePlaceholders = true
+                ),
+                remoteMediator = AlbumsRemoteMediator(
+                    albumsService,
+                    albumsDatabase,
+                    albumMapper,
+                    photoMapper,
+                    userMapper,
+                    dispatcher
+                ),
+                pagingSourceFactory = { albumsDao.getAlbums() }
+            ).flow
+        }
+        return pager
     }
 
     override suspend fun getAllAlbums(): List<ApiAlbum> = albumsService.getAllAlbums()

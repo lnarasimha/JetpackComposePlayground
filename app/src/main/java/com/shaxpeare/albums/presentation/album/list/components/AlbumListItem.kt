@@ -1,6 +1,5 @@
 package com.shaxpeare.albums.presentation.album.list.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,26 +28,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.shaxpeare.albums.R
 import com.shaxpeare.albums.domain.model.Album
+import com.shaxpeare.albums.navigation.Screen
 import com.shaxpeare.albums.presentation.theme.ALBUM_ITEM_HEIGHT_COMPACT
 import com.shaxpeare.albums.presentation.theme.Spacing
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AlbumListItem(
-    navHostController: NavHostController,
     album: Album,
     navigateToAlbumDetail: (Int) -> Unit,
 ) {
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .clickable {
-                navigateToAlbumDetail.invoke(album.id)
-            },
+            .wrapContentHeight(),
+        onClick = {
+            // Do Nothing
+        }
     ) {
         Row(
             modifier = Modifier

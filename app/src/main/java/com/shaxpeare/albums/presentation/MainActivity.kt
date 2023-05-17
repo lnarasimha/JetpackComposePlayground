@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.shaxpeare.albums.presentation.common.AlbumsContent
+import com.shaxpeare.albums.presentation.theme.AlbumsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint(
@@ -25,7 +26,10 @@ class MainActivity : ComponentActivity() {
             }
         }
         setContent {
-            AlbumsContent()
+            AlbumsTheme {
+                AlbumsContent()
+            }
+
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.shaxpeare.albums.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -31,8 +30,10 @@ fun NavGraph(
         modifier = Modifier.padding(paddingValues = paddingValues)
     ) {
 
-        composable(route = Screen.AlbumList.route) {
-            AlbumListScreen(navController = navController,
+        composable(
+            route = Screen.AlbumList.route,
+        ) {
+            AlbumListScreen(
                 navigateToDetails = {
                     navController.navigate("${Screen.AlbumDetails.route}/$it")
                 })
@@ -44,7 +45,7 @@ fun NavGraph(
                 type = NavType.IntType
             })
         ) {
-            AlbumDetailsScreen()
+            AlbumDetailsScreen(navController = navController)
         }
     }
 }

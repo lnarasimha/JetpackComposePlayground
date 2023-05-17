@@ -1,5 +1,6 @@
-package com.shaxpeare.albums.presentation.common
+package com.shaxpeare.albums.presentation.album.list.components
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -18,14 +19,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shaxpeare.albums.presentation.theme.*
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun Shimmer() {
-    ShimmerEffectLarge()
+    ShimmerEffect(5)
 }
 
 @Composable
-fun ShimmerEffectLarge() {
+fun ShimmerEffect(count: Int) {
     Column() {
         LazyColumn(
             modifier = Modifier
@@ -35,7 +36,7 @@ fun ShimmerEffectLarge() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(
-                count = 2
+                count = count
             ) {
                 AnimatedShimmerItem()
             }
@@ -66,20 +67,18 @@ fun ShimmerItem(alpha: Float) {
         modifier = Modifier
             .alpha(alpha = alpha)
             .fillMaxWidth()
-            .wrapContentHeight(),
-        elevation = 6.dp
+            .height(200.dp),
+        elevation = 6.dp,
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             Surface(
                 modifier = Modifier
-                    .size(ALBUM_ITEM_HEIGHT)
+                    .size(ALBUM_ITEM_HEIGHT_COMPACT)
                     .padding(all = MaterialTheme.Spacing.medium)
                     .fillMaxSize()
                     .clip(RoundedCornerShape(MaterialTheme.Spacing.medium)),
@@ -88,20 +87,22 @@ fun ShimmerItem(alpha: Float) {
                 shape = RoundedCornerShape(size = MaterialTheme.Spacing.small)
             ) {}
 
-            repeat(3) {
-                Surface(
-                    modifier = Modifier
-                        .height(32.dp)
-                        .padding(
-                            top = MaterialTheme.Spacing.medium,
-                            end = MaterialTheme.Spacing.medium
-                        )
-                        .fillMaxWidth(0.7f),
-                    color = if (isSystemInDarkTheme())
-                        ShimmerDarkGray else ShimmerMediumGray,
-                    shape = RoundedCornerShape(size = MaterialTheme.Spacing.small)
-                ) {}
-                Spacer(modifier = Modifier.padding(all = MaterialTheme.Spacing.small))
+            Column() {
+                repeat(3) {
+                    Surface(
+                        modifier = Modifier
+                            .height(32.dp)
+                            .padding(
+                                top = MaterialTheme.Spacing.medium,
+                                end = MaterialTheme.Spacing.medium
+                            )
+                            .fillMaxWidth(0.7f),
+                        color = if (isSystemInDarkTheme())
+                            ShimmerDarkGray else ShimmerMediumGray,
+                        shape = RoundedCornerShape(size = MaterialTheme.Spacing.small)
+                    ) {}
+                    Spacer(modifier = Modifier.padding(all = MaterialTheme.Spacing.small))
+                }
             }
         }
     }

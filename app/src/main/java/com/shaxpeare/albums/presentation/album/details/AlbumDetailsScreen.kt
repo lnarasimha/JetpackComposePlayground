@@ -8,13 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.shaxpeare.albums.navigation.Screen
+import androidx.navigation.NavHostController
+import com.shaxpeare.albums.presentation.common.BackPressHandler
 
 @Composable
 fun AlbumDetailsScreen(
-    albumDetailsViewModel: AlbumDetailsViewModel = hiltViewModel()
+    albumDetailsViewModel: AlbumDetailsViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val state = albumDetailsViewModel.state.value
+
+    BackPressHandler(onBackPressed = {
+        navController.popBackStack()
+    })
 
     if (state > 0) {
         Box(
