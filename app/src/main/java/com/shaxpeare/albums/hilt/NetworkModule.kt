@@ -43,7 +43,6 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .callTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
-            .addInterceptor(ChuckerInterceptor(context ))
             .addInterceptor(loggingInterceptor)
             .build()
     }
