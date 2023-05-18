@@ -7,7 +7,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.shaxpeare.albums.domain.model.Album
 import com.shaxpeare.albums.domain.model.Photo
 import com.shaxpeare.albums.utils.setTestContent
-
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,8 +27,11 @@ class AlbumListItemKtTest {
             AlbumListItem(album = album, navigateToAlbumDetail = {})
         }
 
-        onNodeWithText(album.userName, useUnmergedTree = true).assertIsDisplayed()
-        onNodeWithText(album.title, useUnmergedTree = true).assertIsDisplayed()
-        onNodeWithText(album.photos.first().title, useUnmergedTree = true).assertIsDisplayed()
+        onNodeWithText("Username \n" + album.userName, useUnmergedTree = true).assertIsDisplayed()
+        onNodeWithText("Album \n" + album.title, useUnmergedTree = true).assertIsDisplayed()
+        onNodeWithText(
+            "Title \n" + album.photos.first().title,
+            useUnmergedTree = true
+        ).assertIsDisplayed()
     }
 }

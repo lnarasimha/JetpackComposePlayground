@@ -1,0 +1,102 @@
+[versions]
+kotlin = "1.8.21"
+daggerHilt = "2.44"
+compose = "1.4.3"
+composeCompiler = "1.4.3"
+room = "2.5.1"
+retrofit = "2.9.0"
+accompanist = "0.29.1-alpha"
+ktor = "2.2.4"
+java = "17"
+minSdk = "21"
+targetSdk = "33"
+compileSdk = "33"
+versionName = "1.0.0"
+versionCode = "1"
+
+[plugins]
+agp = { id = "com.android.application", version = "8.0.1" }
+toolsGradle = { id = "com.android.tools.build:gradle", version = "8.0.1" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kgp = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+versions = { id = "com.github.ben-manes.versions", version = "0.44.0" }
+
+[libraries]
+ktorCore = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktorContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktorOkhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktorSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+coil = { module = "io.coil-kt:coil-compose", version = "2.2.2" }
+jsonSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.5.0" }
+androidX_palette = { module = "androidx.palette:palette", version = "1.0.0" }
+androidX_browser = { module = "androidx.browser:browser", version = "1.5.0" }
+androidX_datastore = { module = "androidx.datastore:datastore-preferences", version = "1.1.0-alpha01" }
+androidX_corektx = { module = "androidx.core:core-ktx", version = "1.10.1" }
+androidX_appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+androidX_lifecycle_runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.6.1" }
+androidX_core_splash = { module = "androidx.core:core-splashscreen", version = "1.0.1" }
+androidX_room = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidX_room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidX_room_kotlin = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidX_room_paging = { module = "androidx.room:room-paging", version.ref = "room" }
+square_retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+square_retrofit2_converter_gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+square_retrofit2_kotlin_serialisation = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version = "1.0.0" }
+square_okhttp3_logging = { module = "com.squareup.okhttp3:logging-interceptor", version = "4.10.0" }
+square_okhttp3 = { module = "com.squareup.okhttp3:okhttp", version = "4.10.0" }
+square_okhttp3_mock_webserver = { module = "com.squareup.okhttp3:mockwebserver", version = "4.11.0" }
+compose_runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose_foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose_layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose" }
+compose_ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose_ui_graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
+compose_uiUtil = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
+compose_material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose_materialIcons = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+compose_animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+compose_tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose_tooling_preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose_uiTest = { module = "androidx.compose.ui:ui-test", version.ref = "compose" }
+compose_uiTestJunit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+compose_testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose_paging = { module = "androidx.paging:paging-compose", version = "1.0.0-alpha19" }
+compose_activity = { module = "androidx.activity:activity-compose", version = "1.7.1" }
+compose_viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.6.0-rc01" }
+compose_navigation = { module = "androidx.navigation:navigation-compose", version = "2.6.0-alpha06" }
+compose_hiltNavigation = { module = "androidx.hilt:hilt-navigation-compose", version = "1.1.0-alpha01" }
+compose_constraintLayout = { module = "androidx.constraintlayout:constraintlayout-compose", version = "1.1.0-alpha07" }
+accompanist_pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
+accompanist_flowLayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
+hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHilt" }
+hilt_compiler_androidX = { module = "androidx.hilt:hilt-compiler", version = "1.0.0" }
+hilt_android_testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt" }
+
+junit = { module = "junit:junit", version = "4.13.2" }
+junitExt = { module = "androidx.test.ext:junit", version = "1.1.5" }
+strikt = { module = "io.strikt:strikt-core", version = "0.34.1" }
+coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.6.4" }
+mockito_core = { module = "org.mockito:mockito-core", version = "4.7.0" }
+mockito_kotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version = "2.2.0" }
+androidX_arch_core_testing = { module = "androidx.arch.core:core-testing", version = "2.2.0" }
+chucker_library = { module = "com.github.chuckerteam.chucker:library", version = "3.5.2" }
+chucker_library_release = { module = "com.github.chuckerteam.chucker:library-no-op", version = "3.5.2" }
+roboelectric = { module = "org.robolectric:robolectric", version = "4.10.2" }
+espresso_core = { module = "androidx.test.espresso:espresso-core", version = "3.5.1" }
+google_truth = { module = "com.google.truth:truth", version = "1.1.3" }
+kotlin_test_junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+[bundles]
+androidX = ["androidX_palette", "androidX_browser", "androidX_datastore", "androidX_corektx"]
+compose = [
+    "compose_runtime", "compose_foundation", "compose_layout", "compose_ui", "compose_uiUtil",
+    "compose_material", "compose_materialIcons", "compose_animation", "compose_tooling",
+    "compose_paging", "compose_activity", "compose_viewModel", "compose_navigation",
+    "compose_hiltNavigation", "compose_constraintLayout"
+]
+accompanist = ["accompanist_pager", "accompanist_flowLayout"]
+io = ["square_okhttp3", "jsonSerialization", "ktorCore", "ktorContentNegotiation", "ktorOkhttp", "ktorSerialization"]
+test = ["junit", "strikt", "coroutinesTest"]
+androidTest = ["compose_uiTest", "compose_uiTestJunit", "junitExt"]

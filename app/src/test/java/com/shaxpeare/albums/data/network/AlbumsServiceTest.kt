@@ -1,6 +1,7 @@
 package com.shaxpeare.albums.data.network
 
 import com.shaxpeare.albums.utils.FileHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -11,6 +12,7 @@ import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AlbumsServiceTest {
     lateinit var mockWebServer: MockWebServer
     lateinit var albumsService: AlbumsService
@@ -24,6 +26,7 @@ class AlbumsServiceTest {
             .build()
             .create(AlbumsService::class.java)
     }
+
 
     @Test
     fun testGetUsers_returnsProducts() = runTest {
@@ -84,5 +87,4 @@ class AlbumsServiceTest {
     fun tearDown() {
         mockWebServer.shutdown()
     }
-
 }

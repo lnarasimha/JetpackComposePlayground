@@ -15,7 +15,7 @@ import com.shaxpeare.albums.presentation.album.details.AlbumDetailsScreen
 import com.shaxpeare.albums.presentation.album.list.AlbumListScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> { error("No nav controller") }
-val LocalDarkTheme = compositionLocalOf { mutableStateOf(false) }
+val LocalDarkTheme = compositionLocalOf { mutableStateOf(true) }
 
 const val ARGUMENT_ALBUM_ID = "albumId"
 
