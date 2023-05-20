@@ -49,6 +49,7 @@ fun AlbumListItem(
             .wrapContentHeight(),
         shape = RoundedCornerShape(16.dp),
         onClick = {
+            navigateToAlbumDetail.invoke(album.id)
             // Do Nothing
         }
     ) {

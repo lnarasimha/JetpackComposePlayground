@@ -1,7 +1,6 @@
 package com.shaxpeare.albums.presentation.album.list
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,7 +14,6 @@ fun AlbumListScreen(
     albumListViewModel: AlbumListViewModel = hiltViewModel(),
     navigateToDetails: (id: Int) -> Unit
 ) {
-    Log.e("Error", "Called now ${System.currentTimeMillis()}")
     val lazyAlbumItems = albumListViewModel.getAlbums().collectAsLazyPagingItems()
     ListContentCompact(
         albums = lazyAlbumItems,

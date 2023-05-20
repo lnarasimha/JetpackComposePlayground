@@ -63,12 +63,14 @@ class AlbumsRemoteMediator constructor(
                 }
 
                 LoadType.PREPEND -> {
-                    val remoteKeys = getRemoteKeyForFirstItem(state)
-                    val prevPage = remoteKeys?.prevPage
-                        ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    prevPage
+                    return MediatorResult.Success(true)
+
+//                    val remoteKeys = getRemoteKeyForFirstItem(state)
+//                    val prevPage = remoteKeys?.prevPage
+//                        ?: return MediatorResult.Success(
+//                            endOfPaginationReached = remoteKeys != null
+//                        )
+//                    prevPage
                 }
 
                 LoadType.APPEND -> {
