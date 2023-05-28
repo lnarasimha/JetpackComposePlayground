@@ -66,7 +66,7 @@ fun AlbumListItem(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(MaterialTheme.Spacing.medium)),
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(data = album.photos.first().thumbnailUrl)
+                    .data(data = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png")
                     .build(),
                 contentDescription = stringResource(id = R.string.app_name),
                 contentScale = ContentScale.Fit,

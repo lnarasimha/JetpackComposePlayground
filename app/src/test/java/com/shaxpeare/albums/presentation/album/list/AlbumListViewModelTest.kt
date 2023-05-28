@@ -1,5 +1,6 @@
 package com.shaxpeare.albums.presentation.album.list
 
+import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.shaxpeare.albums.domain.model.Album
 import com.shaxpeare.albums.domain.model.Resource
@@ -20,6 +21,9 @@ class AlbumListViewModelTest : BaseViewModelTest(){
 
     @Mock
     lateinit var getAlbumsUseCase: GetAlbumsUseCase
+    @Mock
+    lateinit var pager: Pager<Int, Album>
+
 
     @Test
     fun `test get albums use case works correctly`() = runTest {
@@ -32,10 +36,17 @@ class AlbumListViewModelTest : BaseViewModelTest(){
                 )))
             }
         )
+        Mockito.`when`(pager.flow).thenReturn(
+            flow {
+                emit(PagingData.from(listOf(
+                    TestData.ALBUM_ITEM_VALID_1_DOMAIN
+                )))
+            }
+        )
         testDispatcher.scheduler.advanceUntilIdle()
 
         // When
-        val albumListViewModel = AlbumListViewModel(getAlbumsUseCase)
+        val albumListViewModel = AlbumListViewModel(pager)
         val result = albumListViewModel.getAlbums().first()
 
         // Then
